@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from scipy.stats.mstats import gmean
+import yahoo
 
 
 def simulate_tickers(prices : pd.DataFrame, n : int):
@@ -33,16 +34,25 @@ def calculate_returns(prices : pd.DataFrame(), tickers : list):
     returns = []
     for ticks in tickers:
         stocks = [prices[tick].values for tick in ticks]
-        means  = [gmean(stock + 1) for sotkc in stocks]
+        means  = [gmean(stock + 1) for stock in stocks]
         mean   = np.sum(means)/20
         returns.append(mean)
     return returns
 
+def simulate(prices,index):
+    for n in [1000,10000,100000]:
+        print(n)
+        tickers = simulate_tickers(prices,n)
+        returns = calculate_returns(prices,tickers)
+        i = 0
+        for ret in returns:
+            if ret > gmean(index + 1):
+                i += 1
+        print(f"n={n}; {i/n*100:.2f}% maiores.")
 
 with open("pickle_files/cleaned.pickle","rb") as file:
     prices = pickle.load(file)
 
+sp500 = yahoo.get("^GSPC",(1991,1,1),(2021,1,1))["Ret"].values
 
-tickers = simulate_tickers(prices,10000)
-returns = calculate_returns(prices,tickers)
-print(returns)
+simulate(prices,sp500)
