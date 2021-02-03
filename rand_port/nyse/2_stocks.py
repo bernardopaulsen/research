@@ -2,7 +2,7 @@
 Title      : NYSE Stocks
 Description: Gets historical prices of NYSE stocks given list of tickers.
 Author     : Bernardo Paulsen
-Version    : 0.0.1
+Version    : 1.0.0
 """
 
 

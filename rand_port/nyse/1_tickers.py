@@ -2,7 +2,7 @@
 Title      : NYSE Tickers
 Description: Gets tickers of all stocks listed on the NYSE from Wikipedia page.
 Author     : Bernardo Paulsen
-Version    : 0.9.0
+Version    : 1.0.0
 """
 
 

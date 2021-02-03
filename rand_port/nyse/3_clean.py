@@ -2,7 +2,7 @@
 Title      : Clean Stocks
 Description: Removes stocks with less than the maximum data length from dataframe.
 Author     : Bernardo Paulsen
-Version    : 0.0.1
+Version    : 1.0.0
 """
 
 
