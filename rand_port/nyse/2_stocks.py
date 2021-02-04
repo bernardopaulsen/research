@@ -11,7 +11,7 @@ import pickle
 import yahoo
 
 
-with open("tickers.pickle","rb") as file:
+with open("pickle_files/tickers.pickle","rb") as file:
     tickers = pickle.load(file)
 
 print(len(tickers))
@@ -23,13 +23,14 @@ print(i)
 for ticker in tickers:
     i += 1
     try:
-        stock      = yahoo.get(ticker,(1991,1,1),(2021,1,1))
-        df[ticker] = stock["Ret"]
+        stock      = yahoo.get(ticker,(1991,1,1),(2021,1,1))["Adj Close"]
+        stock      = ((stock - stock.shift(1))/stock.shift(1)).values
+        df[ticker] = stock
         print(i/l, f"{ticker} OK")
     except:
         print(i/l, f"{ticker} --")
 
 
-with open("prices.pickle","wb") as file:
+with open("pickle_files/prices.pickle","wb") as file:
     pickle.dump(df,file)
 

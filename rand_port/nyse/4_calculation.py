@@ -43,14 +43,13 @@ def calculate_returns(prices : pd.DataFrame(), tickers : list):
         i += 1
         stocks = [prices[tick].values for tick in ticks]
         means  = [gmean(stock + 1) for stock in stocks]
-        mean   = np.sum(means)/20
+        mean   = np.sum(means)/20 - 1
         returns.append(mean)
         if not i%100:
             print(i)
     return returns
 
 def simulate(prices,index,n):
-    length  = len(index)
     print("Creating tickers...")
     tickers = simulate_tickers(prices,n)
     print("Simulating portfolios...")
@@ -60,17 +59,18 @@ def simulate(prices,index,n):
     e = 0
     for ret in returns:
         e += 1
-        if ret > gmean(index + 1):
+        if ret > gmean(index + 1) - 1:
             i += 1
         if not e%100:
             print(e)
-    return i/length
+    return i/n
     print("Done.")
 
 
 with open("pickle_files/cleaned.pickle","rb") as file:
     prices = pickle.load(file)
-sp500 = yahoo.get("^GSPC",(1991,1,1),(2021,1,1))["Ret"][1:].values
+sp500 = yahoo.get("^GSPC",(1991,1,1),(2021,1,1))["Adj Close"]
+sp500 = ((sp500 - sp500.shift(1))/sp500.shift(1)).values[1:]
 n     = 10000
 
 
